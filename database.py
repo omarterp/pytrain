@@ -11,6 +11,7 @@ data on NEOs and close approaches extracted by `extract.load_neos` and
 
 You'll edit this file in Tasks 2 and 3.
 """
+from filters import AttributeFilter, HazardousFilter
 
 
 class NEODatabase:
@@ -43,8 +44,21 @@ class NEODatabase:
         self._approaches = approaches
 
         # TODO: What additional auxiliary data structures will be useful?
+        # Create dictionary of neos with their designation as the key
+        self.neo_map_des = {}
+        self.neo_map_name = {}
+        for neo in self._neos:
+            self.neo_map_des[neo.designation] = neo
+            if neo.name and len(neo.name) > 0:
+                self.neo_map_name[neo.name] = neo
 
         # TODO: Link together the NEOs and their close approaches.
+        for approach in self._approaches:
+            if self.neo_map_des[approach._designation]:
+                approach.neo =  self.neo_map_des[approach._designation]
+                self.neo_map_des[approach._designation].approaches.append(approach)
+
+
 
     def get_neo_by_designation(self, designation):
         """Find and return an NEO by its primary designation.
@@ -60,7 +74,8 @@ class NEODatabase:
         :return: The `NearEarthObject` with the desired primary designation, or `None`.
         """
         # TODO: Fetch an NEO by its primary designation.
-        return None
+        search_result = self.neo_map_des.get(designation)
+        return search_result
 
     def get_neo_by_name(self, name):
         """Find and return an NEO by its name.
@@ -77,7 +92,8 @@ class NEODatabase:
         :return: The `NearEarthObject` with the desired name, or `None`.
         """
         # TODO: Fetch an NEO by its name.
-        return None
+        search_result = self.neo_map_name.get(name)
+        return search_result
 
     def query(self, filters=()):
         """Query close approaches to generate those that match a collection of filters.
@@ -95,4 +111,9 @@ class NEODatabase:
         """
         # TODO: Generate `CloseApproach` objects that match all of the filters.
         for approach in self._approaches:
-            yield approach
+            filter_result_bools = []
+            for attribute_filter in filters:
+                filter_result_bools.append(attribute_filter(approach))
+
+            if False not in filter_result_bools:
+                yield approach

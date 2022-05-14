@@ -162,6 +162,7 @@ class TestWriteToJSON(unittest.TestCase):
     def test_json_data_is_a_sequence(self):
         buf = io.StringIO(self.value)
         try:
+            # print(f"debug:::::{str(buf.flush())}")       
             data = json.load(buf)
         except json.JSONDecodeError as err:
             raise self.failureException("write_to_json produced an invalid JSON document") from err
@@ -170,6 +171,7 @@ class TestWriteToJSON(unittest.TestCase):
     def test_json_data_has_five_elements(self):
         buf = io.StringIO(self.value)
         try:
+            # print(f"debug:::::{str(buf.flush())}")    
             data = json.load(buf)
         except json.JSONDecodeError as err:
             raise self.failureException("write_to_json produced an invalid JSON document") from err
