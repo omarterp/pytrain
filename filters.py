@@ -42,6 +42,7 @@ class AttributeFilter:
     Concrete subclasses can override the `get` classmethod to provide custom
     behavior to fetch a desired attribute from the given `CloseApproach`.
     """
+
     def __init__(self, op:operator, value:Any):
         """Construct a new `AttributeFilter` from an binary predicate and a reference value.
 
@@ -73,6 +74,7 @@ class AttributeFilter:
         raise UnsupportedCriterionError
 
     def __repr__(self):
+        """Return `repr(self)`, a computer-readable string representation of this object."""
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
 
@@ -153,26 +155,76 @@ def limit(iterator, n=None):
 
 
 class DateFilter(AttributeFilter):
+    """Close Approach Date Filter; extending AttributeFilter."""
+
     @classmethod
     def get(cls, approach:CloseApproach):
+        """Get CloseApproach date value.
+
+        Args:
+            AttributeFilter (CloseApproach): CloseApproach instance.
+
+        Returns:
+            date: CloseApproach Date.
+        """
         return approach.time.date()
 
 class DistanceFilter(AttributeFilter):
+    """Close Approach Date Filter; extending AttributeFilter."""
+
     @classmethod
     def get(cls, approach:CloseApproach):
+        """Get CloseApproach distance value.
+
+        Args:
+            AttributeFilter (CloseApproach): CloseApproach instance.
+
+        Returns:
+            float: CloseApproach distance.
+        """
         return approach.distance
 
 class VelocityFilter(AttributeFilter):
+    """Close Approach Date Filter; extending AttributeFilter."""
+
     @classmethod
     def get(cls, approach:CloseApproach):
+        """Get CloseApproach Velocity value.
+
+        Args:
+            AttributeFilter (CloseApproach): CloseApproach instance.
+
+        Returns:
+            float: CloseApproach velocity.
+        """
         return approach.velocity
 
 class DiameterFilter(AttributeFilter):
+    """Close Approach Date Filter; extending AttributeFilter."""
+
     @classmethod
     def get(cls, approach:CloseApproach):
+        """Get CloseApproach diameter value.
+
+        Args:
+            AttributeFilter (CloseApproach): CloseApproach instance.
+
+        Returns:
+            float: CloseApproach dimaeter.
+        """
         return approach.neo.diameter
 
 class HazardousFilter(AttributeFilter):
+    """Close Approach Hazardous Filter; extending AttributeFilter."""
+
     @classmethod
     def get(cls, approach:CloseApproach):
+        """Get CloseApproach hazardous value.
+
+        Args:
+            AttributeFilter (CloseApproach): CloseApproach instance.
+
+        Returns:
+            boolean: CloseApproach hazardous indicator.
+        """
         return approach.neo.hazardous

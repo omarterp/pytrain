@@ -38,14 +38,9 @@ def write_to_csv(results, filename):
         for approach in results:
             approach_writer.writerow(flatten_approach(approach.serialize()))
 
-        def serialize(self):
-            """Return serialized json string"""
-            neo = dict(designation=self.designation, name=self.name,
-                        diameter_km="NaN" if math.isnan(self.diameter) else self.diameter,
-                        poptentially_hazardous=self.hazardous)
 
         def serialize(self):
-            """Return serialized json string"""
+            """Return serialized json string."""
             approach = dict(datetime_utc=helpers.datetime_to_str(self.time),
                             distance_au=self.distance, velocity_km_s=self.velocity,
                             neo=self.neo.serialize())

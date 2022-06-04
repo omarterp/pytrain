@@ -37,6 +37,7 @@ class NearEarthObject:
     initialized to an empty collection, but eventually populated in the
     `NEODatabase` constructor.
     """
+
     def __init__(self, data):
         """Create a new `NearEarthObject`.
 
@@ -68,7 +69,7 @@ class NearEarthObject:
                f"diameter={self.diameter:.3f}, hazardous={self.hazardous!r})"
     
     def serialize(self):
-        """Return serialized json string"""
+        """Return serialized json string."""
         neo = dict(designation=self.designation, name=self.name,
                     diameter_km=self.diameter,
                     potentially_hazardous=self.hazardous)
@@ -89,13 +90,14 @@ class CloseApproach:
     private attribute, but the referenced NEO is eventually replaced in the
     `NEODatabase` constructor.
     """
+
     def __init__(self, data):
         """Create a new `CloseApproach`.
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
         self._designation = data.get('designation', '')
-        self.time = cd_to_datetime(data.get('time')) if data.get('time') else None  # TODO: Use the cd_to_datetime function for this attribute.
+        self.time = cd_to_datetime(data.get('time')) if data.get('time') else None
         self.distance = float('nan') if len(data.get('distance', '')) == 0 else float(data.get('distance'))
         self.velocity = float('nan') if len(data.get('velocity', '')) == 0 else float(data.get('velocity'))
 
@@ -130,7 +132,7 @@ class CloseApproach:
                f"velocity={self.velocity:.2f}, neo={self.neo!r})"
     
     def serialize(self):
-        """Return serialized json string"""
+        """Return serialized json string."""
         approach = dict(datetime_utc=helpers.datetime_to_str(self.time),
                         distance_au=self.distance, velocity_km_s=self.velocity,
                         neo=self.neo.serialize())
